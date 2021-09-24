@@ -51,11 +51,20 @@ if __name__ == '__main__':
     time_shell_growing = []
     time_shell_falling = []
     time_shell_gf = []
+    time_sort_random = []
+    time_sort_growing = []
+    time_sort_falling = []
+    time_sort_gf = []
 
     lenght_random = [i for i in range(10000, 100000, 10000)]
     lenght = [i for i in range(100, 1000, 100)]
 
     for i in range(len(lenght_random)):
+        start_time_sort_random = time.time()
+        rMassive = randomNumbers(lenght_random[i])
+        sorted(rMassive)
+        time_sort_random.append(time.time() - start_time_sort_random)
+
         start_time_qs_random = time.time()
         rMassive = randomNumbers(lenght_random[i])
         quick_sort_normal(rMassive)
@@ -97,11 +106,30 @@ if __name__ == '__main__':
         shell_sort(gfMassive)
         time_shell_gf.append(time.time() - start_time_shell_gf)
 
+        start_time_sort_falling = time.time()
+        fMassive = fallingNumbers(lenght[i])
+        sorted(fMassive)
+        time_sort_falling.append(time.time() - start_time_sort_falling)
+
+        start_time_sort_growing = time.time()
+        gMassive = growingNumbers(lenght[i])
+        sorted(gMassive)
+        time_sort_growing.append(time.time() - start_time_sort_growing)
+
+        start_time_sort_gf = time.time()
+        gfMassive = growingAndFallingNumbers(lenght[i])
+        sorted(gfMassive)
+        time_sort_gf.append(time.time() - start_time_sort_gf)
+
     result_random = pd.DataFrame({'lenght': lenght_random,
+                                  'sorted': time_sort_random,
                                     'Qs random': time_qs_random,
                                     'Shell random': time_shell_random})
 
     result_other = pd.DataFrame({'lenght': lenght,
+                                 'sorted growing': time_sort_growing,
+                                 'sorted falling': time_sort_falling,
+                                 'sorted growing-falling': time_shell_gf,
                                   'Qs growing': time_qs_growing,
                                   'Qs falling': time_qs_falling,
                                   'Qs growing-falling': time_qs_gf,
